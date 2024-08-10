@@ -1,6 +1,5 @@
 # 大三下大作业第二部分
 
-
 ## 一、诱导大模型总结项目
 
 大模型总结项目和大模型在垃圾桶检测领域的思路扩展，可以有两种路径实现：一种是使用免费的大语言模型文档分析API，直接提交文档分析；还有一种是使用Prompt工程，对各种免费的大模型API，或者在本地部署的大模型（如Ollama）进行诱导，总结项目文章并给出大纲。
@@ -65,15 +64,15 @@ few-shot prompting则是通过**提供模型少量高质量的示例，这些示
 
 Chain-of-Thought（CoT）提示生成一系列短句，即被称为推理链的句子。思维链提示，就是**把一个多步骤推理问题，分解成很多个中间步骤，分配给更多的计算量，生成更多的 token，再把这些答案拼接在一起进行求解。**对于复杂推理的任务和较大的模型，可获得更多的好处。常见的两种基本CoT提示包括Few-shot CoT 和 Zero-Shot CoT。
 
-Few-shot CoT 允许模型查看一些高质量推理链的演示，这能够帮助模型提高推理能力。普通prompting和CoT的对比如图所示：<img src="md_img\cot.png" alt="cot" style="zoom: 50%;" />
+Few-shot CoT 允许模型查看一些高质量推理链的演示，这能够帮助模型提高推理能力。普通prompting和CoT的对比如图所示：<img src="md_img/cot.png" alt="cot" style="zoom: 50%;" />
 
-同时，得益于大模型能力的不断提升，CoT也有更简单的版本。Zero-shot CoT是由Kojima等人在2022年首先提出的，他们发现，**只需要在提示中添加  “Let’s think step by step” **，就有助于提高模型性能。让我们看一个下面的例子：<img src="md_img\zero_shot_cot.png" alt="zero_shot_cot" style="zoom:50%;" />
+同时，得益于大模型能力的不断提升，CoT也有更简单的版本。Zero-shot CoT是由Kojima等人在2022年首先提出的，他们发现，**只需要在提示中添加  “Let’s think step by step” **，就有助于提高模型性能。让我们看一个下面的例子：<img src="md_img/zero_shot_cot.png" alt="zero_shot_cot" style="zoom:50%;" />
 
 只需要添加一句"Let's think step by step"，LLM会自动将原任务分为几步，一步一步执行，最终得出答案；然后我们可以直接复制LLM的回答，删去答案，作为输入以直接让LLM得到答案。
 
 小对比：
 
-![image-20240809181549729](md_img\image-20240809181549729.png)
+![image-20240809181549729](md_img/image-20240809181549729.png)
 
 #### Self-Consistency CoT
 
@@ -81,7 +80,7 @@ Self-Consistency CoT（自我一致性链式思维提示）是一种改进的解
 
 Self-Consistency CoT 会生成多种不同的推理路径，涵盖了问题的多种思考方式和潜在解决方案；在生成了多种推理路径之后，模型会通过对这些路径的结果进行统计，找出最一致的答案。这个过程类似于“投票”，即看哪种答案在不同推理路径中出现的次数最多，选择这个最具一致性的答案作为最终输出。
 
-![image-20240808193327461](md_img\SCCoT.png)
+![image-20240808193327461](md_img/SCCoT.png)
 
 自我一致性策略显著提升了链式思维提示在一系列流行的算术和常识推理基准测试中的表现，在基准测试中，自我一致性策略的表现提升幅度非常明显，例如GSM8K提升了17.9%、SVAMP提升了11.0%、AQuA提升了12.2%、StrategyQA提升了6.4%，以及ARC挑战提升了3.9%。
 
@@ -93,13 +92,13 @@ Self-Consistency CoT 会生成多种不同的推理路径，涵盖了问题的�
 
 与传统的逐字逐句从左到右进行推理的方式不同，ToT框架允许语言模型同时探索多条不同的推理路径，模型可以在不同的路径之间进行比较和选择，以找到最佳解决方案。同时，ToT将推理过程分解为多个连贯的“思维”单元，其中每个单元都是通向最终解决方案的中间步骤。模型可以在每个步骤上进行自我评估，选择最有前景的路径继续推进。ToT框架允许模型在推理过程中进行前瞻，即考虑未来的可能选择，还可以回溯到之前的步骤，以修正可能的错误或重新评估决策。这种能力大大增强了模型在复杂任务中的灵活性和准确性。
 
-![image-20240808194950412](md_img\ToT.png)
+![image-20240808194950412](md_img/ToT.png)
 
 原作者提到，ToT特别适用于那些需要战略性规划、探索或全局性思考的任务。比如，在游戏策略、创意写作和填字游戏等任务中，ToT显著提升了语言模型的表现。例如，在24点游戏中，ToT使模型的成功率从仅4%提升到了74%。
 
-![image-20240809184154411](md_img\image-20240809184154411.png)
+![image-20240809184154411](md_img/image-20240809184154411.png)
 
-<img src="md_img\image-20240809185915406.png" alt="image-20240809185915406" style="zoom: 200%;" />
+<img src="md_img/image-20240809185915406.png" alt="image-20240809185915406" style="zoom: 200%;" />
 
 此外，像ToT这样的搜索方法需要更多的资源（如GPT-4 API成本）来提高任务性能，但ToT的模块化灵活性让用户可以自定义这种性能-成本平衡。
 
@@ -111,9 +110,9 @@ ReAct（Synergizing Reasoning and Acting in Language Models）是一种通用范
 
 ReAct 使语言模型能够以交替的方式生成语言推理轨迹和文本行动。虽然行动会导致来自外部环境（图中“Env”）的观察反馈，但推理轨迹不会影响外部环境。相反，它们通过对上下文进行推理，并用有用的信息更新模型的内部状态，从而支持未来的推理和行动。
 
-<img src="md_img\ReAct.png" alt="image-20240808211438149" style="zoom:50%;" />
+<img src="md_img/ReAct.png" alt="image-20240808211438149" style="zoom:50%;" />
 
-![image-20240809191136593](md_img\image-20240809191136593.png)
+![image-20240809191136593](md_img/image-20240809191136593.png)
 
 原作者在四个不同的基准测试中对ReAct和最先进的基线方法进行了实证评估：问答（HotPotQA）、事实验证（Fever）、基于文本的游戏（ALFWorld）和网页导航（WebShop）。对于HotPotQA和Fever，模型可以通过与Wikipedia API交互，ReAct在生成行动模型方面优于基础的生成模型，同时在链式推理（CoT）性能上具有竞争力。最佳结果的方法是将ReAct与CoT相结合，在推理过程中同时利用内部知识和外部获取的信息。在ALFWorld和WebShop上，使用单次提示和两次提示的ReAct分别在成功率上比通过约105个任务实例训练的模仿学习和强化学习方法高出34%和10%的绝对提升，超越了现有的基线方法。
 
@@ -125,7 +124,7 @@ ReAct 使语言模型能够以交替的方式生成语言推理轨迹和文本�
 
 （1）**阅读理解场景下**，**多跳阅读理解要求从众多段落中进行推理跟归纳**。于是出现了新的方案，将多跳阅读理解问题分解成多个相对简单的子问题（现有阅读理解模型可以回复），从而提高阅读理解准确性。如图：
 
-<img src="md_img\parall_recursing.png" alt="parall_recursing" style="zoom:50%;" />
+<img src="md_img/parall_recursing.png" alt="parall_recursing" style="zoom:50%;" />
 
 回答原始问题Q综合需要两个不同段落的信息，而将问题拆解为子问题Q1和Q2，能显著提高模型的回答准确率。
 
@@ -143,25 +142,25 @@ ReAct 使语言模型能够以交替的方式生成语言推理轨迹和文本�
 
 ​      a) **无监督问题分解，将原问题分解为多个相对简单的子问题**。这里需要训练一个分解模型，用于将复杂问题分解成多个子问题。由于这个任务下的监督训练数据构造成本高昂，于是提出了一种无监督的训练数据构造方式，对于每一个复杂问题q，从语料集Q中检索召回得到N个对应的简单问题s作为q的子问题，N的取值可以依赖于具体任务或者具体问题。我们希望这些简单问题在某些方面跟q足够相似，同时这些简单问题s之间有明显差异。从而构造出复杂问题跟子问题序列之间的伪pair对（q, [s1,…sN]）,用于训练分解模型。
 
-<img src="md_img\divide_q.png" alt="divide_q" style="zoom: 50%;" />
+<img src="md_img/divide_q.png" alt="divide_q" style="zoom: 50%;" />
 
 ​     b) 生成**子问题回复，利用现有的QA模型，去生成各个子问题的回复**。这里不对QA模型有太多限制，只要它能正确回复语料库S中的简单问题即可，所以尽量采用在S中效果优异的QA模型。
 
 ​     c) **生成复杂问题回复，将复杂问题，各个子问题跟对应回复一同作为QA模型的输入，生成复杂问题的回复。**这里的QA模型可以采用跟第二步一样的模型，只要将输入做对应调整即可。
 
-<img src="md_img\divided_question.png" alt="divided_question" style="zoom: 80%;" />
+<img src="md_img/divided_question.png" alt="divided_question" style="zoom: 80%;" />
 
  （3）**如何利用大规模语言模型将自然语言问题转化为代码语句？SEQZERO就是一种解法。**以SQL语句为例，由于SQL这种规范语言的复合结构，SQL语句很多情况下会显得复杂且冗长。  **一个SQL语句包括多个部分，例如From \**，SELCT \**， WHERE \**，只要能从自然语言问题中提出这几个部分对应的元素，然后通过规则可以转化为对应的SQL语句。**
 
 **于是SEQZERO的做法就是先利用语言模型预测得到其中一个元素，将该元素加入到原问题中生成下个元素，重复此操作直到生成全部元素，然后通过规则将所有结果组合起来的就得到对应的SQL语句。**在预测每个元素的过程中，为了得到更加强大的泛化能力，采用了few-shot跟zero-shot的集成策略。
 
-![SQL](md_img\SQL.png)
+![SQL](md_img/SQL.png)
 
 （4）**Least-to-most**
 
 **虽然chain-of-thought prompting在很多自然语言推理任务有显著效果，但是当问题比prompt里的示例更难时，它的表现会很糟糕。**举个例子，比如任务抽取文本每个单词最后一个字母，prompt的示例输入是3个单词，输入相对较短，但是问题的长度却是10个单词，这种情况下chain-of-thought prompting的策略就会失效。于是提出了**Least-to-most，通过两阶段的prompting来解决这种问题，第一阶段通过prompting将原问题分解为一系列子问题，第二阶段则是通过prompting依次解决子问题，**前面子问题的问题跟答案会加入到候选子问题的模型输入中去，方便语言模型更好地回复候选子问题。由于这两个阶段任务有所区别，对应的prompt内容也不同。
 
-<img src="md_img\least2most.png" alt="least2most.png" style="zoom: 80%;" />
+<img src="md_img/least2most.png" alt="least2most.png" style="zoom: 80%;" />
 
 #### CoT 与 Recursive Prompting的混合使用
 
@@ -173,7 +172,7 @@ Automatic Prompt Engineer (APE) 是一种自动化方法，用于生成和优化
 
 APE将指令视为“程序”，通过在LLM提出的一组候选指令中进行搜索，优化以最大化选定的评分函数。
 
-![image-20240808201643430](md_img\APE.png)
+![image-20240808201643430](md_img/APE.png)
 
 APE 还会通过迭代过程优化这些提示。这个过程通常包括评估模型输出的质量，并基于输出结果调整提示，从而逐步提高模型的表现。APE生成的提示不仅可以引导模型向真实性和/或信息性方向发展，还可以通过简单地将其添加到in-context learning prompts前来改善few-shot learning的表现。
 
@@ -199,13 +198,13 @@ Reflexion是一种新颖的框架，通过语言反馈来强化语言智能体�
 
 Multiagent Debate使一种来改进语言响应的互补方法，即多个语言模型实例提出各自的响应和推理过程，并通过多轮讨论和辩论来达成共同的最终答案。这种方法显著增强了在多个任务中的数学和策略推理能力。我们还证明了该方法能够提高生成内容的事实准确性，减少现有模型易犯的错误和幻觉。该方法可以直接应用于现有的黑箱模型，并在我们研究的所有任务中使用相同的程序和提示。
 
-<img src="md_img\MultiagentDebate.png" alt="image-20240808210504681" style="zoom:50%;" />
+<img src="md_img/MultiagentDebate.png" alt="image-20240808210504681" style="zoom:50%;" />
 
 ##### Faithful Reasoning方法
 
 Faithful Reasoning方法通过一个反映问题潜在逻辑结构的因果关系过程，使LMs能够进行可靠的多步推理。该方法通过将推理步骤链接在一起实现，每个步骤由两个经过微调的模型调用得出，一个用于选择，另一个用于推理，以生成有效的推理轨迹。同时Faithful Reasoning也会执行束搜索来提高推理质量。
 
-<img src="md_img\FaithfulReasoning.png" alt="image-20240808210850634" style="zoom: 80%;" />
+<img src="md_img/FaithfulReasoning.png" alt="image-20240808210850634" style="zoom: 80%;" />
 
 
 
@@ -219,11 +218,11 @@ Ollama社区提供有多种前沿大语言模型可供下载，调试。我们�
 
 我们使用的Prompt方法主要是前面介绍过的CoT 与 递归提示的混合使用：辅助模型拆解问题，形成思维链；以及将复杂问题拆解为一个一个小问题，方便模型详尽全面的解释垃圾桶检测项目：
 
-<img src="md_img\gemma.png" alt="image-20240807151430302" style="zoom:50%;" />
+<img src="md_img/gemma.png" alt="image-20240807151430302" style="zoom:50%;" />
 
 一步一步总结完项目后，我们总结选择PDF或者TXT格式下载整个对话：
 
-![image-20240807151626646](md_img\download_gemma.png)
+![image-20240807151626646](md_img/download_gemma.png)
 
 #### 2.使用在线大模型平台总结项目
 
@@ -231,7 +230,7 @@ Ollama社区提供有多种前沿大语言模型可供下载，调试。我们�
 
 我们使用的Prompt方法主要是前面介绍过的**CoT 与 递归提示的混合使用：辅助模型拆解问题，形成思维链**；以及将复杂问题拆解为一个一个小问题，方便模型详尽全面的解释垃圾桶检测项目：
 
-<img src="md_img\GPT.png" alt="image-20240807152108786" style="zoom:50%;" />
+<img src="md_img/GPT.png" alt="image-20240807152108786" style="zoom:50%;" />
 
 由于GPT没有提供下载功能，我们直接复制对话内容保存为TXT。
 
@@ -239,15 +238,15 @@ Ollama社区提供有多种前沿大语言模型可供下载，调试。我们�
 
 这里以Humata平台为例，Humata本身**是基于大语言模型，辅助阅读论文的一个平台。**它同时也能对一个，或者多个PDF文档进行总结，非常契合本次任务要求。
 
-![image-20240730181254914](md_img\humata.png)
+![image-20240730181254914](md_img/humata.png)
 
 只需要注册，登录，上传文档，然后就可以提问有关这些文档的问题了。
 
-<img src="md_img\humata_ask.png" alt="humata_ask" style="zoom:75%;" />
+<img src="md_img/humata_ask.png" alt="humata_ask" style="zoom:75%;" />
 
 例：让humata总结Llama2论文，并给出20页PPT方案。
 
-<img src="md_img\show_humata.png" alt="image-20240730181915899" style="zoom:50%;" />
+<img src="md_img/show_humata.png" alt="image-20240730181915899" style="zoom:50%;" />
 
 在使用以上几种混合方法，从头到尾生成PPT内容方案后，我们优中选优，把各个大模型的总结汇聚一起形成文档，用文档引导大模型做一个演讲稿总结，如果第一遍总结的不到位，我们可以继续Prompt提示它应该总结的方向，最终得到我们想要的演讲稿。之后就进入到使用文档和演讲稿生成PPT的步骤。
 
@@ -427,77 +426,77 @@ Ollama社区提供有多种前沿大语言模型可供下载，调试。我们�
 
 在开头我们明确自己的**要求**和**背景**，并将其详细告知GPT：
 
-<img src="md_img\image-20240809155131693.png" alt="image-20240809155131693" style="zoom: 50%;" />
+<img src="md_img/image-20240809155131693.png" alt="image-20240809155131693" style="zoom: 50%;" />
 
 在开头提到的要求中，我们遗漏了一些要求，这是因为有些要求是我们中途使用讲稿中临时发现的，这部分要求我们会在中途需要GPT实现的时候通过对话额外增加。
 
 同时，由于在之前与GPT对话时，GPT出现了我们没有想到的违规方式，所以我们在这次的prompt的开头增加了上一次prompt缺失的要求，例如：“不需要标注每段的段数”；”禁止在每段最后出现重复的总结或者展望“” 一定不要出现我没有提到的技术或方法”。下面是这次的首段与之前未提及” 一定不要出现我没有提到的技术或方法”的首段对比：
 
-![Slide1](md_img\Slide1.PNG)
+![Slide1](md_img/Slide1.PNG)
 
-![Slide2](md_img\Slide2.PNG)
+![Slide2](md_img/Slide2.PNG)
 
 
 
-<img src="md_img\image-20240809160103374.png" alt="image-20240809160103374" style="zoom: 50%;" />
+<img src="md_img/image-20240809160103374.png" alt="image-20240809160103374" style="zoom: 50%;" />
 
 **未添加” 一定不要出现我没有提到的技术或方法“：**
 
-<img src="md_img\image-20240809160355199.png" alt="image-20240809160355199" style="zoom: 50%;" />
+<img src="md_img/image-20240809160355199.png" alt="image-20240809160355199" style="zoom: 50%;" />
 
 另外一个问题是，我们在开头所叙述的如此多的要求，GPT能否持续记忆下去？能否持续执行下去？甚至GPT是否在一开始就理解了我们的要求？实际上，记忆对于GPT来说并不难，而后面两点才是我们在中途需要注意并提醒的点。
 
 之后我们继续prompt过程：
 
-<img src="md_img\image-20240809161029369.png" alt="image-20240809161029369" style="zoom:50%;" />
+<img src="md_img/image-20240809161029369.png" alt="image-20240809161029369" style="zoom:50%;" />
 
 ##### 中途提示
 
 在途中的一段中，我们发现对于无关的图片，GPT写讲稿的时候也会使用很多文本解释图片，所以我们在这里即使**添加新的要求**，GPT则会更新他的Memory：
 
-<img src="md_img\image-20240809162934839.png" alt="image-20240809162934839" style="zoom:50%;" />
+<img src="md_img/image-20240809162934839.png" alt="image-20240809162934839" style="zoom:50%;" />
 
-<img src="md_img\image-20240809162959550.png" alt="image-20240809162959550" style="zoom:50%;" />
+<img src="md_img/image-20240809162959550.png" alt="image-20240809162959550" style="zoom:50%;" />
 
 我们可以看到这次的鹦鹉图片GPT直接进行了跳过（在之后对话中出现的所有无关图片，GPT也自主进行了跳过）
 
-<img src="md_img\image-20240809163019763.png" alt="image-20240809163019763" style="zoom:50%;" />
+<img src="md_img/image-20240809163019763.png" alt="image-20240809163019763" style="zoom:50%;" />
 
 这里，我们添加了数字读法的要求并重复了大小写的问题。数字读法因为只靠语言叙述较为困难，我们直接**给出案例**帮助GPT理解，GPT处理的很好。而大小写的问题实际上在后面的对胡中反复出现，这是因为我们一开始的要求中，GPT可能并没有理解到我所说的哪些属于单词（需要全部小写），例如"LoRA""Text-to-Image"，我们在这时需要及时告诉他，这些单词也需要全部小写。
 
-<img src="md_img\image-20240809163109473.png" alt="image-20240809163109473" style="zoom:50%;" />
+<img src="md_img/image-20240809163109473.png" alt="image-20240809163109473" style="zoom:50%;" />
 
 可以看到GPT对数字的处理应用了新的规则
 
-<img src="md_img\image-20240809163433065.png" alt="image-20240809163433065" style="zoom:50%;" />
+<img src="md_img/image-20240809163433065.png" alt="image-20240809163433065" style="zoom:50%;" />
 
 在这里，GPT对于大小写和删除括号的方式出现了错误，在此之前，我们已经对于括号进行了一次举例解释：
 
-<img src="md_img\image-20240809164356499.png" alt="image-20240809164356499" style="zoom:50%;" />
+<img src="md_img/image-20240809164356499.png" alt="image-20240809164356499" style="zoom:50%;" />
 
-<img src="md_img\image-20240809164410686.png" alt="image-20240809164410686" style="zoom:50%;" />
+<img src="md_img/image-20240809164410686.png" alt="image-20240809164410686" style="zoom:50%;" />
 
 然而这次的HERD-YOLO（Hybrid Energy-efficient ResDense YOLO）GPT并没有相似处理。
 
-<img src="md_img\image-20240809164118675.png" alt="image-20240809164118675" style="zoom:50%;" />
+<img src="md_img/image-20240809164118675.png" alt="image-20240809164118675" style="zoom:50%;" />
 
 我们直接进行提示
 
-<img src="md_img\image-20240809164145719.png" alt="image-20240809164145719" style="zoom:50%;" />
+<img src="md_img/image-20240809164145719.png" alt="image-20240809164145719" style="zoom:50%;" />
 
 这里原本的HERD-YOLO在我上一步提出修改大小写的时候并没有变为小写，而在下一步我提示HERD-YOLO需要替换发音时，GPT将其修改成为了小写
 
-<img src="md_img\image-20240809164208804.png" alt="image-20240809164208804" style="zoom:50%;" />
+<img src="md_img/image-20240809164208804.png" alt="image-20240809164208804" style="zoom:50%;" />
 
 这里也是重复了两次删去括号的要求
 
-<img src="md_img\image-20240809164958718.png" alt="image-20240809164958718" style="zoom:50%;" />
+<img src="md_img/image-20240809164958718.png" alt="image-20240809164958718" style="zoom:50%;" />
 
 ##### 结尾
 
 我们在全部结束后询问GPT是否还记得我们的所有要求：
 
-<img src="md_img\image-20240809165433789.png" alt="image-20240809165433789" style="zoom: 80%;" />
+<img src="md_img/image-20240809165433789.png" alt="image-20240809165433789" style="zoom: 80%;" />
 
 我们可以发现GPT对于一开始的要求和中途添加的要求都记忆牢固。
 
@@ -521,15 +520,15 @@ Ollama社区提供有多种前沿大语言模型可供下载，调试。我们�
 
 我们将LLM对项目的总结和演讲稿转为TXT，导入到PPT生成大模型平台。它会自动帮我们分析出大纲。同时，我们可以对大纲进行微调。在生成时，我们要提示大模型生成的PPT章节顺序和内容安排要契合我们的演讲稿。
 
-<img src="md_img\KIMI.png" alt="image-20240731180232970" style="zoom: 25%;" />
+<img src="md_img/KIMI.png" alt="image-20240731180232970" style="zoom: 25%;" />
 
 然后，我们选择一个模板风格，可以对模板风格进行适当微调。
 
-<img src="md_img\selection.png" alt="image-20240731181036998" style="zoom: 33%;" />
+<img src="md_img/selection.png" alt="image-20240731181036998" style="zoom: 33%;" />
 
 选择完模型之后，我们直接生成PPT，用户还可以自由选择是否对PPT进行微调：
 
-<img src="md_img\adaption.png" alt="image-20240731181218518" style="zoom:33%;" />
+<img src="md_img/adaption.png" alt="image-20240731181218518" style="zoom:33%;" />
 
 微调之后，将生成的PPT下载下来即可。
 
@@ -539,15 +538,15 @@ Canva提供了文稿转为有特色的文档，再由有丰富内容的文档生
 
 我们需要先简单选取一个文档模板，将LLM对项目的总结依次填入：
 
-<img src="md_img\canvas.png" alt="image-20240807153825791" style="zoom:50%;" />
+<img src="md_img/canvas.png" alt="image-20240807153825791" style="zoom:50%;" />
 
 这样就得到了一份关于项目的总结，然后使用canva平台的文档转PPT功能，将文档内容生成PPT：
 
-<img src="md_img\trans_into_ppt.png" alt="image-20240808011033517" style="zoom:50%;" />
+<img src="md_img/trans_into_ppt.png" alt="image-20240808011033517" style="zoom:50%;" />
 
 canva会帮用户生成多组PPT样式，用户挑选PPT后，可以简单调整PPT内容，然后就可以一键下载生成的PPT了：
 
-<img src="md_img\PPT.png" alt="image-20240808011450179" style="zoom:50%;" />
+<img src="md_img/PPT.png" alt="image-20240808011450179" style="zoom:50%;" />
 
 ## 三、TTS合成语音讲解
 
@@ -563,11 +562,11 @@ CosyVoice支持one-shot音色克隆 ，只需要3~10s的原始音频，即可生
 
 本次作业中，我们使用的CosyVoice语音模型为整合包版：https://www.bilibili.com/video/BV1PE4m1d7JT/
 
-<img src="md_img\cosy_vocie.png" alt="image-20240808011713731" style="zoom:50%;" />
+<img src="md_img/cosy_vocie.png" alt="image-20240808011713731" style="zoom:50%;" />
 
 我们可以选择直接使用模型自带的预训练好的音色去读文段，也可以通过上传音色复刻自己喜欢的声音：
 
-<img src="md_img\prompt.png" alt="-" style="zoom:50%;" />
+<img src="md_img/prompt.png" alt="-" style="zoom:50%;" />
 
 只需上传prompt音频，加上音段的对应文段内容，就可以生成prompt音色读合成文本的音频了。
 
@@ -617,7 +616,7 @@ CosyVoice支持one-shot音色克隆 ，只需要3~10s的原始音频，即可生
 
 #### 示例操作
 
-![image-20240808121921030](C:md_img\20240808121906.png)
+![image-20240808121921030](md_img/20240808121906.png)
 
 假设您有一段文字需要转换为语音，具体操作步骤如下：
 
